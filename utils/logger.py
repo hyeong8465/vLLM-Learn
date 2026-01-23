@@ -20,8 +20,9 @@ def setup_logger(name="vllm-from-scratch"):
     console_handler.setLevel(logging.DEBUG)
     logger.addHandler(console_handler)
 
-    # 4. [Handler 2] 파일 저장 (Runpod의 경우 /workspace에 저장해야 안전)
-    log_dir = "/workspace/logs"
+    # 4. [Handler 2] 파일 저장 (프로젝트 루트의 logs/ 디렉토리)
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    log_dir = os.path.join(project_root, "logs")
     os.makedirs(log_dir, exist_ok=True)
     
     file_handler = logging.FileHandler(os.path.join(log_dir, "server.log"))
