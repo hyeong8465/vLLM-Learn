@@ -9,4 +9,8 @@ wheels/
 # Virtual environments
 .venv
 
+# 
+playground/
+
+# Cursor
 .cursor/
