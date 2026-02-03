@@ -20,7 +20,7 @@ def simple_inference_test():
     # 생성
     output_ids = model.generate(
         **inputs,
-        max_new_tokens=4000,
+        max_new_tokens=100,
         temperature=0.7,
         do_sample=True,
         pad_token_id=tokenizer.eos_token_id
