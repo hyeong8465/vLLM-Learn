@@ -77,16 +77,16 @@ class ModelLoader:
             
             logger.info(f"Loading model: {model_id}")
             
-            # 캐시 경로 설정
-            model_cache_path = self.cache_dir / model_id.replace("/", "_")
+            # Hugging Face 캐시 경로 확인 (실제 캐시 디렉토리 형식: models--{org}--{model})
+            hf_cache_path = self.cache_dir / f"models--{model_id.replace('/', '--')}"
             
-            # 캐시에 모델이 있는지 확인
-            if model_cache_path.exists():
-                logger.info(f"Model found in cache: {model_cache_path}")
-                local_path = str(model_cache_path)
+            if hf_cache_path.exists():
+                logger.info(f"Model found in cache: {hf_cache_path}")
             else:
-                logger.info(f"Model not in cache, downloading from Hugging Face...")
-                local_path = model_id
+                logger.info(f"Model not in cache, will download from Hugging Face...")
+            
+            # Hugging Face는 항상 model_id로 로드하고 cache_dir에서 캐시 확인
+            local_path = model_id
             
             # 토크나이저 로드
             logger.debug("Loading tokenizer...")
