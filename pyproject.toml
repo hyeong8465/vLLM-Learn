@@ -9,4 +9,5 @@ dependencies = [
     "torch>=2.0.0",
     "transformers>=4.40.0",
     "accelerate>=0.30.0",
+    "ipykernel>=7.1.0",
 ]
