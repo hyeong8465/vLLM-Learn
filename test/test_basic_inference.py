@@ -2,7 +2,7 @@ import time
 
 from models import ModelLoader
 from utils.logger import logger
-from engine.naive_inference import generate_naive
+from engine.inference import generate_naive
 
 Temperature = 1
 MaxNewTokens = 10
