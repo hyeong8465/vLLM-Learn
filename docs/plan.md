@@ -3,8 +3,8 @@
 ## 진행 상황
 
 - [x] Cycle 1: Naive Inference - sampler.py, inference.py(generate_naive), 벤치마크 기준선 측정
-- [ ] Cycle 2: KV Cache - inference.py(generate_with_kv_cache), Prefill/Decode 분리, 속도 비교 ← **현재**
-- [ ] Cycle 3: PagedAttention - sequence.py, block_manager.py, 블록 기반 KV Cache 관리
+- [x] Cycle 2: KV Cache - inference.py(generate_with_kv_cache), Prefill/Decode 분리, 속도 비교
+- [ ] Cycle 3: PagedAttention - sequence.py, block_manager.py, 블록 기반 KV Cache 관리 ← **현재**
 - [ ] Cycle 4: Continuous Batching - scheduler.py, model_runner.py, 동적 배치 처리
 - [ ] Cycle 5: Prefix Cache - prefix_cache.py, 프롬프트 KV 재사용, TTFT 측정
 - [ ] Cycle 6: Flash Attention - attention.py, flash_attn 통합, 최종 성능 측정
