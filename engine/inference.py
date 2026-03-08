@@ -13,8 +13,8 @@ def generate_naive(
     ) -> str:
     input_ids = tokenizer.encode(prompt, return_tensors="pt").to(model.device)
 
-    for _ in range(max_new_tokens):
-        with torch.no_grad():
+    with torch.no_grad():
+        for _ in range(max_new_tokens):
             outputs = model(input_ids)
 
             logits = outputs.logits
@@ -24,7 +24,7 @@ def generate_naive(
             if next_token_id == tokenizer.eos_token_id:
                 break
 
-        input_ids = torch.cat([input_ids, next_token_id], dim=1)
+            input_ids = torch.cat([input_ids, next_token_id], dim=1)
     
     return tokenizer.decode(input_ids[0].tolist())
 
@@ -41,25 +41,25 @@ def generate_with_kv_cache(
     input_ids = tokenizer.encode(prompt, return_tensors="pt").to(model.device)
     past_key_values = None
 
-    for _ in range(max_new_tokens):
-        # inference
-        if past_key_values is None: # prefill
-            outputs = model(input_ids, use_cache=True)
-        else:
-            outputs = model(
-                input_ids[:,-1:],
-                past_key_values=past_key_values,
-                use_cache=True
-            )
+    with torch.no_grad():
+        for _ in range(max_new_tokens):
+            if past_key_values is None: # prefill
+                outputs = model(input_ids, use_cache=True)
+            else: # decode
+                outputs = model(
+                    input_ids[:,-1:],
+                    past_key_values=past_key_values,
+                    use_cache=True
+                )
 
-        past_key_values = outputs.past_key_values # kv 캐시 업데이트
-        next_logits = outputs.logits[:, -1, :]
-        next_token = sample_with_temperature_topk(next_logits, temperature, k)
+            past_key_values = outputs.past_key_values # kv 캐시 업데이트
+            next_logits = outputs.logits[:, -1, :]
+            next_token = sample_with_temperature_topk(next_logits, temperature, k)
 
-        if next_token == tokenizer.eos_token_id:
-            break
+            if next_token == tokenizer.eos_token_id:
+                break
 
-        input_ids = torch.cat([input_ids, next_token], dim=1)
+            input_ids = torch.cat([input_ids, next_token], dim=1)
 
     return tokenizer.decode(input_ids[0].tolist())
 
