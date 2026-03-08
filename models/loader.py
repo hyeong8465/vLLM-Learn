@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -83,7 +82,7 @@ class ModelLoader:
             if hf_cache_path.exists():
                 logger.info(f"Model found in cache: {hf_cache_path}")
             else:
-                logger.info(f"Model not in cache, will download from Hugging Face...")
+                logger.info("Model not in cache, will download from Hugging Face...")
             
             # Hugging Face는 항상 model_id로 로드하고 cache_dir에서 캐시 확인
             local_path = model_id
@@ -124,7 +123,7 @@ class ModelLoader:
             
             # GPU 메모리 부족 시 CPU로 폴백
             if "out of memory" in str(e).lower() or "CUDA" in str(e):
-                logger.warning(f"GPU memory error, falling back to CPU")
+                logger.warning("GPU memory error, falling back to CPU")
                 self.device = "cpu"
                 return self._load_on_cpu(model_id)
             
